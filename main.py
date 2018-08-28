@@ -8,6 +8,8 @@ app = Flask(__name__)
 
 Bootstrap(app)   
 
+counter = 0
+words_done = []
 @app.route('/')
 
 def index():
@@ -48,7 +50,51 @@ def listone():
     df = pd.read_json('static/json/Word_list_one.json')
     df = df.transpose()
     temp = []
-    return render_template('listone.html', result = [df, temp, random])
+    global words_done
+    global counter
+    return render_template('listone.html', result = [df, temp, random, counter, words_done])
+
+#Check if the word is right
+@app.route('/auth', methods=['POST'])
+def auth():
+    result = request.form
+    print(result)
+    f = open('answers.txt', 'a')
+    global words_done
+    global counter
+    counter += 1
+    words_done.append(result['word'])
+    f.write(result['answer']+':'+result['word']+"\n")
+    return listone()
+
+#Calculate the effeciency score
+@app.route('/endtest', methods=['POST'])
+def endtest():
+    #result = request.form
+    global words_done
+    global counter 
+    words_done = []
+    counter = 0
+    df = pd.read_json('static/json/Word_list_one.json')
+    df = df.transpose()
+    t_s = 0
+    total = 0
+    wrong_words = []
+    with open('answers.txt', 'r') as f:
+        for line in f:
+            family, word = line.split(':')
+            word = word.replace('\n', '')
+            total += 1
+            for i in range(1, 128):
+                if(df.iloc[i]['Word'] == word):
+                    f = df.iloc[i]['Family']
+                    if(family == f):
+                        t_s += 1
+                    else:
+                        wrong_words.append(df.iloc[i]['Word'])
+    open('answers.txt', 'w').close()
+    return render_template("score.html", result = (t_s, total, (t_s/total)*100,wrong_words))
+
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(12)

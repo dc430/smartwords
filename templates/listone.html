@@ -3,9 +3,6 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
 
     <title>Smart Words</title>
 
@@ -54,27 +51,175 @@
 
       <section class="jumbotron text-center">
             <div class="wrapper fadeInDown">
-                {% set temp = result[2].randint(1,128) %}
+                {% if result[3] == 0 %}
+                <p>You will see number of words completed here</p>
+                {% else %}
+                <p style="text-align:left">{{ result[3] }}</p>
+                {% endif %}
+                <p>Words done:
+                  {% if result[4] %}
+                  {% for i in result[4] %}
+                    <i>{{ i }} </i>
+                  {% endfor %}
+                  {% else %}
+                  You will see the words completed here
+                  {% endif %}
+                </p>
+                {% set temp = result[2].randint(0,127) %}
+                {% for i in range(0,5000) %}
+                {% if(result[0].iloc[temp]['Word'] in result[4]) %}
+                {% set temp = result[2].randint(0,127) %}
+                {% endif %}
+                {% endfor %} 
                     <h1>{{ result[0].iloc[temp]['Word'] }}</h1>
             </div>
             <br>
             <div class="container">
-                    Options
-                    <br><br>
+                    Choices
+                    {% set r = result[2].randint(1,4) %}
+                    <br><br><br><br>
                     <div class="row">
+                        {% if(r == 1) %}
                         <div class="col-sm">
-                            {{ result[0].iloc[temp]['Family'] }}
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer"class="btn btn-primary" value="{{ result[0].iloc[temp]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3] %}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
+                          </div>
+                        <div class="col-sm">
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
                         </div>
                         <div class="col-sm">
-                            {{ result[0].iloc[result[2].randint(1,128)]['Family'] }}
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
                         </div>
                         <div class="col-sm">
-                            {{ result[0].iloc[result[2].randint(1,128)]['Family'] }}
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
+                        </div>
+                        {% elif (r == 2) %}
+                        <div class="col-sm">
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
                         </div>
                         <div class="col-sm">
-                            {{ result[0].iloc[result[2].randint(1,128)]['Family'] }}    
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer"class="btn btn-primary" value="{{ result[0].iloc[temp]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3] %}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
+                          </div>
+                          <div class="col-sm">
+                              <form action="/auth" method="post">
+                                <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                                <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                                {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                              </form>
+                          </div>
+                          <div class="col-sm">
+                              <form action="/auth" method="post">
+                                <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                                <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                                {% set count = result[3] %}
+                              <input type="hidden" name="count" value="{{ count }}">
+                              </form>
+                          </div>
+                        {% elif (r == 3) %}
+                        <div class="col-sm">
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
                         </div>
+                        <div class="col-sm">
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
+                        </div>
+                        <div class="col-sm">
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer"class="btn btn-primary" value="{{ result[0].iloc[temp]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
+                          </div>
+                        <div class="col-sm">
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
+                        </div>
+                        {% else %}
+                        <div class="col-sm">
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
+                        </div>
+                        <div class="col-sm">
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
+                        </div>
+                        <div class="col-sm">
+                            <form action="/auth" method="post">
+                              <input type="submit" name="answer" value="{{ result[0].iloc[result[2].randint(0,127)]['Family'] }}">
+                              <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                              {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                            </form>
+                        </div>
+                        <div class="col-sm">
+                          <form action="/auth" method="post">
+                            <input type="submit" name="answer"class="btn btn-primary" value="{{ result[0].iloc[temp]['Family'] }}">
+                            <input type="hidden" name="word" value="{{ result[0].iloc[temp]['Word'] }}">
+                            {% set count = result[3]%}
+                              <input type="hidden" name="count" value="{{ count }}">
+                          </form>
+                        </div>
+                        {% endif %}
                     </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <form action="/endtest" method="post">
+                      <input type="submit" style="background-color: salmon" value="End test">
+                    </form>
                   </div>
       </section>
     </main>
